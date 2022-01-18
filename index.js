@@ -42,6 +42,15 @@ app.get('/products/new', (req, res) => {
   res.render('products/new');
 });
 
+// POST a new product
+app.post('/products', async (req, res) => {
+  console.log(req.body);
+  const newProduct = new Product(req.body);
+  await newProduct.save();
+  console.log(newProduct);
+  res.redirect(`/products/${newProduct._id}`);
+});
+
 // get a specific product by id
 app.get('/products/:id', async (req, res) => {
   const product = await Product.findById(req.params.id);
