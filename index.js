@@ -31,15 +31,18 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
-const categories = ['fruit', 'vegetable', 'dairy'];
+const categories = ['Fruit', 'Vegetable', 'Dairy'];
 // **********
 // ROUTES
 // **********
 
 // GET the list of products
 app.get('/products', async (req, res) => {
-  const products = await Product.find({});
-  res.render('products/index', { products });
+  const { category } = req.query;
+  const products = category
+    ? await Product.find({ category })
+    : await Product.find({});
+  res.render('products/index', { products, category: category || 'All' });
 });
 
 // render a form for adding a new product
