@@ -24,6 +24,10 @@ mongoose
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// ************
+// MIDDLEWARE
+// ************
+
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
@@ -61,6 +65,16 @@ app.get('/products/:id', async (req, res) => {
 app.get('/products/:id/edit', async (req, res) => {
   const product = await Product.findById(req.params.id);
   res.render('products/edit', { product });
+});
+
+// PUT product update
+app.put('/products/:id', async (req, res) => {
+  console.log(req.body);
+  const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+    runValidators: true,
+    new: true,
+  });
+  res.redirect(`/products/${product._id}`);
 });
 
 app.listen(3000, () => {
