@@ -37,16 +37,16 @@ app.get('/products', async (req, res) => {
   res.render('products/index', { products });
 });
 
+// render a form for adding a new product
+app.get('/products/new', (req, res) => {
+  res.render('products/new');
+});
+
 // get a specific product by id
 app.get('/products/:id', async (req, res) => {
   const product = await Product.findById(req.params.id);
   console.log(product);
   res.render('products/show', { product });
-});
-
-// render a form for adding a new product
-app.get('/products/new', (req, res) => {
-  res.render('products/new');
 });
 
 app.listen(3000, () => {
