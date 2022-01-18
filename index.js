@@ -44,7 +44,6 @@ app.get('/products/new', (req, res) => {
 
 // POST a new product
 app.post('/products', async (req, res) => {
-  console.log(req.body);
   const newProduct = new Product(req.body);
   await newProduct.save();
   console.log(newProduct);
@@ -56,6 +55,12 @@ app.get('/products/:id', async (req, res) => {
   const product = await Product.findById(req.params.id);
   console.log(product);
   res.render('products/show', { product });
+});
+
+// render a form for editing a product
+app.get('/products/:id/edit', async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  res.render('products/edit', { product });
 });
 
 app.listen(3000, () => {
